@@ -10,7 +10,7 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Inject Clean Custom CSS for high-end look
+# Inject Clean Custom CSS
 st.markdown("""
     <style>
     .main-title { color: #2C3E50; font-size: 2.2rem; font-weight: 800; text-align: center; margin-bottom: 2px; }
@@ -20,7 +20,7 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# 2. Establish Predictive Baseline Model (Self-contained caching)
+# 2. Establish Predictive Baseline Model
 @st.cache_resource
 def train_baseline_model():
     gbsg_df = pd.DataFrame({
@@ -55,7 +55,6 @@ st.markdown(
 left_column, right_column = st.columns(2, gap="large")
 
 with left_column:
-   with left_column:
     st.subheader("Step 1: Select Analysis Engine")
     dataset_mode = st.selectbox(
         "Analytical Mode Perspective",
@@ -76,15 +75,7 @@ with left_column:
     has_parent = st.radio("Has a Biological Parent or Sibling Had Breast Cancer?", options=["No", "Yes"], index=0, horizontal=True)
     has_mutation = st.radio("Is There a Known Inherited Pathogenic DNA Mutation Present?", options=["No / Unknown", "Yes (BRCA1/BRCA2 Positive)"], index=0, horizontal=True)
     
-    st.write("") # Spacing element
-    action_cols = st.columns(2)
-    with action_cols[0]:
-        submit_btn = st.button("Calculate Analytics", use_container_width=True, type="primary")
-    with action_cols[1]:
-        report_btn = st.button("Generate Patient Report", use_container_width=True)
-
-    
-    st.write("") # Spacing element
+    st.write("") 
     action_cols = st.columns(2)
     with action_cols[0]:
         submit_btn = st.button("Calculate Analytics", use_container_width=True, type="primary")
@@ -94,9 +85,8 @@ with left_column:
 with right_column:
     st.subheader("Model-Driven Analytical Output Dashboard")
     
-    # 5. Core Operational Logic Framework
     input_df = pd.DataFrame([[age, size, nodes, grade]], columns=['age', 'size', 'nodes', 'grade'])
-    base_probability = float(model.predict_proba(input_df)[:, 1][0])
+    base_probability = float(model.predict_proba(input_df)[:, 1])
     
     genetic_probability = 9.4
     if has_parent == "Yes":
@@ -121,7 +111,6 @@ with right_column:
     else:
         kinetic_tier = "Standard / Indolent Progression Track"
 
-    # Action Routing Rules
     if submit_btn:
         if dataset_mode == "Rate of Progression Calculator":
             st.markdown("### Statistical Progression Forecast")
@@ -178,6 +167,7 @@ with right_column:
             file_name=f"Patient_Progression_Report_{age}.txt",
             mime="text/plain"
         )
-    else:
-        st.info("Select patient variables on the left configuration panel and click an operational engine action to display real-time evaluation insights.")
+else:
+    st.info("Select patient variables on the left configuration panel and click an operational engine action to display real-time evaluation insights.")
+
 
