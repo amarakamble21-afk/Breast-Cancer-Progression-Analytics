@@ -52,10 +52,10 @@ st.markdown(
 )
 
 # 4. Create Responsive Columns for App Layout
-left_column, right_column = st.columns([11, 13], gap="large")
+left_column, right_column = st.columns(2, gap="large")
 
 with left_column:
-    st.subheader("Step 1: Select Analysis Engine")
+        st.subheader("Step 1: Select Analysis Engine")
     # CHANGED 'choices=' TO 'options='
     dataset_mode = st.selectbox(
         "Analytical Mode Perspective",
@@ -76,16 +76,8 @@ with left_column:
         "Tumor Aggressiveness Grade (1 = Slowest Cell Division, 3 = Fastest)", 
         options=[1, 2, 3], 
         index=1, 
-        horizontal=True
-    )
+        horizontal=True)
 
-    
-    st.subheader("Step 2: Patient Demographics and Vital Statistics")
-    # Streamlit sliders include interactive direct entry boxes right on top of them by default
-    age = st.slider("Patient Age (Years)", min_value=18, max_value=100, value=52, step=1)
-    size = st.slider("Tumor Size / Diameter (Millimeters)", min_value=1, max_value=100, value=25, step=1)
-    nodes = st.slider("Number of Affected Lymph Nodes Found", min_value=0, max_value=30, value=2, step=1)
-    grade = st.radio("Tumor Aggressiveness Grade (1 = Slowest Cell Division, 3 = Fastest)", options=[1, 2, 3], index=1, horizontal=True)
     
     st.subheader("Step 3: Heritage and Genetic Validation Vectors")
     has_parent = st.radio("Has a Biological Parent or Sibling Had Breast Cancer?", options=["No", "Yes"], index=0, horizontal=True)
@@ -103,7 +95,7 @@ with right_column:
     
     # 5. Core Operational Logic Framework
     input_df = pd.DataFrame([[age, size, nodes, grade]], columns=['age', 'size', 'nodes', 'grade'])
-    base_probability = float(model.predict_proba(input_df)[:, 1])
+    base_probability = float(model.predict_proba(input_df)[:, 1][0])
     
     genetic_probability = 9.4
     if has_parent == "Yes":
@@ -179,7 +171,6 @@ with right_column:
         
         st.markdown(f"<div class='report-box'>{report}</div>", unsafe_allow_html=True)
         
-        # Download button utility native to Streamlit
         st.download_button(
             label="Download Printable Report (.txt)",
             data=report,
@@ -188,3 +179,4 @@ with right_column:
         )
     else:
         st.info("Select patient variables on the left configuration panel and click an operational engine action to display real-time evaluation insights.")
+
