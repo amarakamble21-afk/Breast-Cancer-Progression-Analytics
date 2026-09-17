@@ -56,14 +56,29 @@ left_column, right_column = st.columns([11, 13], gap="large")
 
 with left_column:
     st.subheader("Step 1: Select Analysis Engine")
+    # CHANGED 'choices=' TO 'options='
     dataset_mode = st.selectbox(
         "Analytical Mode Perspective",
-        choices=[
+        options=[
             "Rate of Progression Calculator", 
             "Probability of Genetic Inheritance", 
             "Unified Clinical Strategy Matrix"
         ]
     )
+    
+    st.subheader("Step 2: Patient Demographics and Vital Statistics")
+    age = st.slider("Patient Age (Years)", min_value=18, max_value=100, value=52, step=1)
+    size = st.slider("Tumor Size / Diameter (Millimeters)", min_value=1, max_value=100, value=25, step=1)
+    nodes = st.slider("Number of Affected Lymph Nodes Found", min_value=0, max_value=30, value=2, step=1)
+    
+    # ENSURED 'options=' IS PRESENT FOR THE RADIO BUTTONS
+    grade = st.radio(
+        "Tumor Aggressiveness Grade (1 = Slowest Cell Division, 3 = Fastest)", 
+        options=[1, 2, 3], 
+        index=1, 
+        horizontal=True
+    )
+
     
     st.subheader("Step 2: Patient Demographics and Vital Statistics")
     # Streamlit sliders include interactive direct entry boxes right on top of them by default
