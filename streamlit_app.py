@@ -177,7 +177,7 @@ with right_column:
         
         st.markdown(f"<div class='report-box'>{report}</div>", unsafe_allow_html=True)
         
-                st.download_button(
+            st.download_button(
             label="Download Printable Report (.txt)",
             data=report,
             file_name=f"Patient_Progression_Report_{age}.txt",
