@@ -55,8 +55,8 @@ st.markdown(
 left_column, right_column = st.columns(2, gap="large")
 
 with left_column:
-        st.subheader("Step 1: Select Analysis Engine")
-    # CHANGED 'choices=' TO 'options='
+   with left_column:
+    st.subheader("Step 1: Select Analysis Engine")
     dataset_mode = st.selectbox(
         "Analytical Mode Perspective",
         options=[
@@ -70,18 +70,19 @@ with left_column:
     age = st.slider("Patient Age (Years)", min_value=18, max_value=100, value=52, step=1)
     size = st.slider("Tumor Size / Diameter (Millimeters)", min_value=1, max_value=100, value=25, step=1)
     nodes = st.slider("Number of Affected Lymph Nodes Found", min_value=0, max_value=30, value=2, step=1)
-    
-    # ENSURED 'options=' IS PRESENT FOR THE RADIO BUTTONS
-    grade = st.radio(
-        "Tumor Aggressiveness Grade (1 = Slowest Cell Division, 3 = Fastest)", 
-        options=[1, 2, 3], 
-        index=1, 
-        horizontal=True)
-
+    grade = st.radio("Tumor Aggressiveness Grade (1 = Slowest Cell Division, 3 = Fastest)", options=[1, 2, 3], index=1, horizontal=True)
     
     st.subheader("Step 3: Heritage and Genetic Validation Vectors")
     has_parent = st.radio("Has a Biological Parent or Sibling Had Breast Cancer?", options=["No", "Yes"], index=0, horizontal=True)
     has_mutation = st.radio("Is There a Known Inherited Pathogenic DNA Mutation Present?", options=["No / Unknown", "Yes (BRCA1/BRCA2 Positive)"], index=0, horizontal=True)
+    
+    st.write("") # Spacing element
+    action_cols = st.columns(2)
+    with action_cols[0]:
+        submit_btn = st.button("Calculate Analytics", use_container_width=True, type="primary")
+    with action_cols[1]:
+        report_btn = st.button("Generate Patient Report", use_container_width=True)
+
     
     st.write("") # Spacing element
     action_cols = st.columns(2)
