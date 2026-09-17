@@ -3,20 +3,34 @@ import numpy as np
 import pandas as pd
 from sklearn.ensemble import RandomForestClassifier
 
-# 1. Page Configuration & Custom Styling
+# 1. Page Configuration & Custom Branding
 st.set_page_config(
     page_title="Advanced Breast Cancer Multimodal Analytical Dashboard",
     layout="wide",
     initial_sidebar_state="expanded"
 )
 
-# Inject Clean Custom CSS
+# Inject High-End Pink and White Theme Custom CSS Styles
 st.markdown("""
     <style>
-    .main-title { color: #2C3E50; font-size: 2.2rem; font-weight: 800; text-align: center; margin-bottom: 2px; }
-    .byline { color: #7F8C8D; font-size: 1.1rem; font-weight: 500; text-align: center; margin-bottom: 20px; font-style: italic; }
-    .description-box { background-color: #F8F9FA; border-left: 5px solid #3498DB; padding: 15px; border-radius: 4px; margin-bottom: 25px; color: #34495E; }
-    .report-box { background-color: #1E1E1E; color: #FFFFFF; font-family: monospace; padding: 20px; border-radius: 6px; white-space: pre-wrap; }
+    /* Main Background and Structural Layout Text */
+    .stApp { background-color: #FFFFFF; }
+    h1, h2, h3, h4, h5, h6, p, label, .stSlider, .stSelectbox, .stRadio { color: #2C3E50 !important; }
+    
+    /* Branding Elements */
+    .main-title { color: #D81B60; font-size: 2.2rem; font-weight: 800; text-align: center; margin-bottom: 2px; }
+    .byline { color: #F48FB1; font-size: 1.1rem; font-weight: 600; text-align: center; margin-bottom: 20px; font-style: italic; }
+    
+    /* UI Structure Boxes */
+    .description-box { background-color: #FFF0F5; border-left: 5px solid #FF69B4; padding: 15px; border-radius: 4px; margin-bottom: 25px; color: #4A4A4A; }
+    .report-box { background-color: #FFF5F7; color: #2C3E50; font-family: monospace; padding: 20px; border: 1px solid #F48FB1; border-radius: 6px; white-space: pre-wrap; }
+    
+    /* Interactive Component Styling Overrides */
+    div.stButton > button:first-child { background: linear-gradient(135deg, #FF69B4, #D81B60) !important; color: white !important; font-weight: bold !important; border: none !important; border-radius: 6px !important; box-shadow: 0 4px 6px rgba(216, 27, 96, 0.2); }
+    div.stButton > button:first-child:hover { background: linear-gradient(135deg, #D81B60, #C2185B) !important; color: white !important; }
+    
+    /* Global Card Wrapper shadow elements */
+    .right-pane { background-color: #FAFAFA; border: 1px solid #F8BBD0; padding: 20px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.02); }
     </style>
 """, unsafe_allow_html=True)
 
@@ -78,15 +92,17 @@ with left_column:
     st.write("") 
     action_cols = st.columns(2)
     with action_cols[0]:
-        submit_btn = st.button("Calculate Analytics", use_container_width=True, type="primary")
+        submit_btn = st.button("Calculate Analytics", use_container_width=True)
     with action_cols[1]:
         report_btn = st.button("Generate Patient Report", use_container_width=True)
 
 with right_column:
+    st.markdown("<div class='right-pane'>", unsafe_allow_html=True)
     st.subheader("Model-Driven Analytical Output Dashboard")
     
+    # 5. Core Operational Logic Framework (FIXED NUMPY INTERFACE SCALAR SLICE)
     input_df = pd.DataFrame([[age, size, nodes, grade]], columns=['age', 'size', 'nodes', 'grade'])
-    base_probability = float(model.predict_proba(input_df)[:, 1])
+    base_probability = float(model.predict_proba(input_df)[0, 1])
     
     genetic_probability = 9.4
     if has_parent == "Yes":
@@ -161,13 +177,7 @@ with right_column:
         
         st.markdown(f"<div class='report-box'>{report}</div>", unsafe_allow_html=True)
         
-        st.download_button(
-            label="Download Printable Report (.txt)",
-            data=report,
-            file_name=f"Patient_Progression_Report_{age}.txt",
-            mime="text/plain"
-        )
-    else:
-        st.info("Select patient variables on the left configuration panel and click an operational engine action to display real-time evaluation insights.")
+        st.download_button(label="Download Printable Report (.txt)",data=report,file_name=f"Patient_Progression_Report_{age}.txt",mime="text/plain")else:st.info("Select patient variables on the left configuration panel and click an operational engine action to display real-time evaluation insights.")st.markdown("", unsafe_allow_html=True)
+
 
 
