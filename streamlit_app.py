@@ -161,13 +161,12 @@ with right_column:
         
         st.markdown(f"<div class='report-box'>{report}</div>", unsafe_allow_html=True)
         
-              st.download_button(
+        st.download_button(
             label="Download Printable Report (.txt)",
             data=report,
             file_name=f"Patient_Progression_Report_{age}.txt",
             mime="text/plain"
         )
-    # INDENTED BY 4 SPACES TO REMAIN INSIDE 'WITH RIGHT_COLUMN:'
     else:
         st.info("Select patient variables on the left configuration panel and click an operational engine action to display real-time evaluation insights.")
 
